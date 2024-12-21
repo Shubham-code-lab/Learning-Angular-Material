@@ -4,11 +4,64 @@
 
   <img class="course-thumbnail mat-elevation-z8" [src]="course.iconUrl">
 
+  <div class="spinner-container" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <!-- array containing data to dataSource -->
+  <table mat-table class="lessons-table mat-elevation-z8" [dataSource]="lessons">
+
+    <!-- final render do not depend upon order of column in template but depend upon the column -->
+    <!-- matColumnDef tell this container contain information about certain column -->
+    <ng-container matColumnDef="seqNo">
+      <!-- template associated to header of this column also table cell lf this column-->
+
+      <!-- to identify this template of header cell by applying this  structural directive *matHeaderCellDef  while mat-header-cell can apply style to this-->
+      <th mat-header-cell *matHeaderCellDef>
+        <!-- we can show any angular widget to angular header i.e:-country flag-->
+        #
+      </th>
+
+      
+      <!-- we can name whatever we want thi lesson so we have access to a particular row , so this two directive are required mat-cell *matCellDef -->
+      <td mat-cell *matCellDef="let lesson">{{ lesson.seqNo}}</td>
+
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>
+        Description
+      </th>
+      <td mat-cell *matCellDef="let lesson">
+        {{ lesson.description}}
+      </td>
+
+    </ng-container>
+
+    <ng-container matColumnDef="duration">
+      <th mat-header-cell *matHeaderCellDef>
+        Duration
+      </th>
+      <td mat-cell *matCellDef="let lesson">
+        {{ lesson.duration}}
+      </td>
+
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+    <!-- template for the table row -->
+    <!-- mat-row apply certain style , matRowDef define it as row template this i useful of listening to row click handler, -->
+    <tr mat-row *matRowDef="let lesson;columns:displayedColumns"> </tr>
+
+  </table>
+
+  <mat-paginator #paginator class="mat-elevation-z8" 
+    [length]="course?.lessonsCount"
+    [pageSize]="3"
+    [pageSizeOptions]="[3,6,9]"
+  >
+
+  </mat-paginator>
 </div>
 
-
-
-
-
-
-  
